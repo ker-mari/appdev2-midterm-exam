@@ -1,11 +1,10 @@
 import * as React from 'react';
 import { View, Text } from 'react-native';
-import {
-  createStaticNavigation,
-  useNavigation,
-} from '@react-navigation/native';
+import { createStaticNavigation, useNavigation } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { Link } from '@react-navigation/native';
 import { Button } from '@react-navigation/elements';
+
 
 function HomeScreen() {
   const navigation = useNavigation();
@@ -27,6 +26,9 @@ function HomeScreen() {
     </View>
   );
 }
+
+
+
 function DetailsScreen({ route }) {
   const navigation = useNavigation();
 
@@ -53,10 +55,26 @@ function DetailsScreen({ route }) {
   );
 }
 
+
+
 const RootStack = createNativeStackNavigator({
+  initialRouteName: 'Home',
+  screenOptions: {
+    headerStyle: { backgroundColor: 'tomato' },
+  },
+
   screens: {
-    Home: HomeScreen,
-    Details: DetailsScreen,
+    Home: {
+      screen: HomeScreen,
+      options: {
+        title: 'Overview',
+      },
+    },
+    Details: {
+      screen: DetailsScreen,
+      initialParams: { itemId: 42 },
+
+    },
   },
 });
 
@@ -65,4 +83,3 @@ const Navigation = createStaticNavigation(RootStack);
 export default function App() {
   return <Navigation />;
 }
-
